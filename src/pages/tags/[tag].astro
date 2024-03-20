@@ -6,7 +6,8 @@ export async function getStaticPaths() {
 
   var tags = [];
   allPosts.forEach((post) => {
-    tags = tags.concat(post.frontmatter.tags);
+    if (post.frontmatter.tags != undefined)
+      tags = tags.concat(post.frontmatter.tags);
   });
   tags = [...new Set(tags)];
 
