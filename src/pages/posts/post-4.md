@@ -11,4 +11,3 @@ tags: ["astro", "success"]
 ---
 
 This post will show up on its own in the list from the page u just came from!
-s
