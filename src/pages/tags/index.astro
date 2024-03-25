@@ -1,12 +1,12 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const allPosts = await Astro.glob("../posts/*.md");
+const allPosts = await getCollection("posts");
 
-var tags = [];
+var tags: string[] = [];
 allPosts.forEach((post) => {
-  if (post.frontmatter.tags != undefined)
-    tags = tags.concat(post.frontmatter.tags);
+  if (post.data.tags != undefined) tags = tags.concat(post.data.tags);
 });
 tags = [...new Set(tags)];
 ---

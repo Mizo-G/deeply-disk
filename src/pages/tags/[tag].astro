@@ -1,19 +1,19 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const allPosts = await Astro.glob("../posts/*.md");
+  const allPosts = await getCollection("posts");
 
-  var tags = [];
+  var tags: string[] = [];
   allPosts.forEach((post) => {
-    if (post.frontmatter.tags != undefined)
-      tags = tags.concat(post.frontmatter.tags);
+    if (post.data.tags != undefined) tags = tags.concat(post.data.tags);
   });
   tags = [...new Set(tags)];
 
   const pages = tags.map((_tag) => {
     var filteredPosts = allPosts.filter((post) =>
-      post.frontmatter.tags?.includes(_tag)
+      post.data.tags?.includes(_tag)
     );
     return { params: { tag: _tag }, props: { posts: filteredPosts } };
   });
@@ -31,7 +31,7 @@ const { posts } = Astro.props;
     {
       posts.map((post) => (
         <li>
-          <a href={post.url}>{post.frontmatter.title}</a>
+          <a href={`/posts/${post.slug}`}>{post.data.title}</a>
         </li>
       ))
     }
