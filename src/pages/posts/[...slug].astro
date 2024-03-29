@@ -11,12 +11,30 @@ export async function getStaticPaths() {
   }));
 }
 
+type Post = {
+  id: "post-1.md";
+  slug: "post-1";
+  body: string;
+  collection: "posts";
+  data: {
+    title: string;
+    pubDate: Date;
+    description: string;
+    author: string;
+    image: {
+      url: string;
+      alt: string;
+    };
+    tags: string[];
+  };
+};
+
 const { entry } = Astro.props;
 // @ts-ignore
 const { Content } = await entry.render();
+const postEntry: Post = entry;
 ---
 
-<!--  @ts-ignore -->>
-<MarkdownPostLayout frontmatter={entry.data}>
+<MarkdownPostLayout frontmatter={postEntry.data}>
   <Content />
 </MarkdownPostLayout>
